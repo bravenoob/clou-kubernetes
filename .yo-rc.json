@@ -1,0 +1,19 @@
+{
+  "generator-jhipster": {
+    "appsFolders": [
+      "clou",
+      "clou-cmeter",
+      "clou-graze"
+    ],
+    "directoryPath": "../",
+    "serviceDiscoveryType": "eureka",
+    "jwtSecretKey": "YTVjOGNmNDJmMDMxYjc4MDA3YWI5N2FlNTI5ZTFkODFhYzEwZGE5MmQ3ZGFlZGJlMjk1M2QzNTUxNDM2Y2MzZWI4MDIxMGM1OGU4YzUzYWQ4NTNjNzgzNmYwNDU3ODllYzVkYw==",
+    "dockerRepositoryName": "bravenoob",
+    "dockerPushCommand": "docker push",
+    "kubernetesNamespace": "default",
+    "kubernetesServiceType": "LoadBalancer",
+    "ingressDomain": "",
+    "monitoring": "elk",
+    "istio": false
+  }
+}

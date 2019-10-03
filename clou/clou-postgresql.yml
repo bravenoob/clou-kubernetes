@@ -1,0 +1,56 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: clou-postgresql
+  namespace: default
+  labels:
+    app: clou-postgresql
+type: Opaque
+data:
+  postgresql-password: ZGZkMzgwZmI0ZjQwODg2ZTg5MDllZTUwNDA5NGQzMWY4NDk3YzdlZjkyN2I3ZDUzMjJlMTJmNjFhNjk5NWZkZTQyNDg5N2I4OTM0NjVkMzk1ZWNiNDg1NzM2ODFmOTZiNmZmZjNjNjk4MjEzMDg4MTYzYTY4YmJiOTY0ZGQwOTZmMTRmYmQyYzM3YWI4NWQ0ZGEyNGVmMjdlNDU5ZjQwMWJmOTRiOGUxM2RmNDNkZjRkNjkzM2FiNTM3MGM5NzI2NDVkZTllZjMxYWI3MGNiZGU3NGMwNjAyYjY5NTQyNWY0ZTE1ODA4MDFmOTkwZjhlYTY1NTE4NWY0Njg5MzNiYw==
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: clou-postgresql
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: clou-postgresql
+  template:
+    metadata:
+      labels:
+        app: clou-postgresql
+    spec:
+      volumes:
+        - name: data
+          emptyDir: {}
+      containers:
+        - name: postgres
+          image: postgres:11.5
+          env:
+            - name: POSTGRES_USER
+              value: clou
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: clou-postgresql
+                  key: postgresql-password
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/postgresql/
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: clou-postgresql
+  namespace: default
+spec:
+  selector:
+    app: clou-postgresql
+  ports:
+    - port: 5432
